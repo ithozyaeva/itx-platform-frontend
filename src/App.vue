@@ -22,5 +22,8 @@ onMounted(() => {
   } else {
     document.documentElement.classList.remove('dark-theme')
   }
+  if (!localStorage.getItem('tg_user')) {
+    window.location.pathname = '/';
+  }
 })
 </script>
