@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
 import type { TelegramUser } from '../types/telegramUser'
+import { defineStore } from 'pinia'
 
 interface State {
   user: TelegramUser | null
@@ -23,5 +23,5 @@ export const useMainStore = defineStore('main', {
     setUser(userData: TelegramUser) {
       this.user = userData
     },
-  }
+  },
 })
