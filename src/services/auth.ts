@@ -2,12 +2,10 @@ import axios from 'axios'
 
 export interface TelegramUser {
   id: number
-  telegram_id: number
+  telegramID: number
   username: string
-  first_name: string
-  last_name: string
-  created_at: string
-  updated_at: string
+  firstName: string
+  lastName: string
 }
 
 export const authService = {
