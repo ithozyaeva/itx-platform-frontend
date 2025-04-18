@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useUser } from '@/composables/useUser'
-import { Crown, Edit, User } from 'lucide-vue-next'
+import { Crown } from 'lucide-vue-next'
 
 const user = useUser()
 </script>
@@ -15,22 +15,15 @@ const user = useUser()
               <div
                 class="w-32 h-32 rounded-full border-4 border-white/80 shadow-md overflow-hidden flex items-center justify-center bg-purple-100 group-hover:scale-105 transition-transform"
               >
-                <User class="w-16 h-16 text-purple-400" />
+                <img :src="`https://t.me/i/userpic/160/${user.tg}.jpg`">
               </div>
-              <button
-                type="button"
-                class="absolute bottom-0 right-0 rounded-full w-10 h-10 bg-white/80 hover:bg-white/90 flex items-center justify-center shadow transition-all border border-gray-200"
-                aria-label="Edit avatar"
-              >
-                <Edit class="h-4 w-4 text-gray-600" />
-              </button>
             </div>
             <div class="text-center">
               <h1 class="text-3xl font-semibold text-gray-900 mb-2">
                 {{ user?.firstName }} {{ user?.lastName }}
               </h1>
               <p class="text-gray-600 mb-4">
-                {{ user?.username }}
+                {{ user?.tg }}
               </p>
               <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 rounded-full">
                 <Crown class="w-5 h-5 text-purple-500" />
