@@ -1,14 +1,28 @@
 <script setup lang="ts">
 import { useUser } from '@/composables/useUser'
 import { authService } from '@/services/auth'
+import axios from 'axios'
 import { Code, LogOut } from 'lucide-vue-next'
+import { ref } from 'vue'
+import ReviewModal from './ReviewModal.vue'
 
 const user = useUser()
+const isModalOpen = ref(false)
 
 function logout() {
   authService.clearAuthHeader()
   user.value = null
   window.location.pathname = '/'
+}
+
+async function handleSaveReview(text: string) {
+  try {
+    await axios.post('/api/reviews', { text, date: new Date().toISOString(), authorTg: user.value?.tg })
+    isModalOpen.value = false
+  }
+  catch (error) {
+    console.error('Error creating review:', error)
+  }
 }
 </script>
 
@@ -22,12 +36,25 @@ function logout() {
         <span>IT-ХОЗЯЕВА</span>
       </div>
       <Navigation />
-      <div v-if="user" class="flex items-center">
+      <div v-if="user" class="flex items-center gap-3">
+        <button
+          v-if="user.role !== 'UNSUBSCRIBER'"
+          class="cursor-pointer border border-gray-300 rounded-md px-4 py-1 hover:bg-gray-100 transition duration-300 active:scale-95"
+          @click="isModalOpen = true"
+        >
+          Добавить отзыв
+        </button>
         <span class="mr-3">
-          {{ `${user.firstName} ${user.lastName[0]}.` }}
+          {{ `${user.firstName} ${user.lastName[0] ?? ""}` }}
         </span>
         <LogOut class="h-6 w-6 cursor-pointer" @click="logout" />
       </div>
     </div>
   </header>
+
+  <ReviewModal
+    :is-open="isModalOpen"
+    @close="isModalOpen = false"
+    @save="handleSaveReview"
+  />
 </template>

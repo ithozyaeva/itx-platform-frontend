@@ -1,11 +1,14 @@
 import axios from 'axios'
 
+export type UserRole = 'UNSUBSCRIBER' | 'SUBSCRIBER'
+
 export interface TelegramUser {
   id: number
   telegramID: number
-  username: string
+  tg: string
   firstName: string
   lastName: string
+  role: UserRole
 }
 
 export const authService = {
