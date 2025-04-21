@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { useUser } from '@/composables/useUser'
+import { isUserSubscribed, useUser } from '@/composables/useUser'
 import { authService } from '@/services/auth'
-import axios from 'axios'
+import { reviewService } from '@/services/reviews'
 import { Code, LogOut } from 'lucide-vue-next'
 import { ref } from 'vue'
 import ReviewModal from './ReviewModal.vue'
 
 const user = useUser()
 const isModalOpen = ref(false)
+const isSubscribed = ref(isUserSubscribed())
 
 function logout() {
   authService.clearAuthHeader()
@@ -16,13 +17,11 @@ function logout() {
 }
 
 async function handleSaveReview(text: string) {
-  try {
-    await axios.post('/api/reviews', { text, date: new Date().toISOString(), authorTg: user.value?.tg })
-    isModalOpen.value = false
-  }
-  catch (error) {
-    console.error('Error creating review:', error)
-  }
+  await reviewService
+    .createReview(text)
+    .finally(() => {
+      isModalOpen.value = false
+    })
 }
 </script>
 
@@ -38,7 +37,7 @@ async function handleSaveReview(text: string) {
       <Navigation />
       <div v-if="user" class="flex items-center gap-3">
         <button
-          v-if="user.role !== 'UNSUBSCRIBER'"
+          v-if="isSubscribed"
           class="cursor-pointer border border-gray-300 rounded-md px-4 py-1 hover:bg-gray-100 transition duration-300 active:scale-95"
           @click="isModalOpen = true"
         >
@@ -52,9 +51,5 @@ async function handleSaveReview(text: string) {
     </div>
   </header>
 
-  <ReviewModal
-    :is-open="isModalOpen"
-    @close="isModalOpen = false"
-    @save="handleSaveReview"
-  />
+  <ReviewModal :is-open="isModalOpen" @close="isModalOpen = false" @save="handleSaveReview" />
 </template>
