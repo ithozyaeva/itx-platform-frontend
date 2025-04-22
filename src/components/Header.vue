@@ -8,7 +8,7 @@ import ReviewModal from './ReviewModal.vue'
 
 const user = useUser()
 const isModalOpen = ref(false)
-const isSubscribed = ref(isUserSubscribed())
+const isSubscribed = isUserSubscribed()
 
 function logout() {
   authService.clearAuthHeader()
