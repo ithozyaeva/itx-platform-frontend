@@ -1,4 +1,4 @@
-import type { TelegramUser } from '../types/telegramUser'
+import type { TelegramUser } from '@/services/auth'
 import { defineStore } from 'pinia'
 
 interface State {

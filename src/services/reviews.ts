@@ -1,10 +1,10 @@
-import axios from 'axios'
+import ky from 'ky'
 
 export const reviewService = {
   async createReview(text: string) {
     try {
-      const response = await axios.post('/api/reviews/add', { text })
-      return response.data
+      const response = await ky.post('/api/reviews/add', { json: text })
+      return (await response.json())
     }
     catch (err) {
       console.error('Произошла ошибка', err)

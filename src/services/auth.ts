@@ -1,4 +1,4 @@
-import axios from 'axios'
+import ky from 'ky'
 
 export type UserRole = 'UNSUBSCRIBER' | 'SUBSCRIBER'
 
@@ -6,6 +6,7 @@ export interface TelegramUser {
   id: number
   telegramID: number
   tg: string
+  birthday: string
   firstName: string
   lastName: string
   role: UserRole
@@ -13,16 +14,16 @@ export interface TelegramUser {
 
 export const authService = {
   async authenticate(token: string): Promise<{ user: TelegramUser, token: string }> {
-    const response = await axios.post(`/api/auth/telegram`, { token })
-    return response.data
+    const response = await ky.post(`/api/auth/telegram`, { json: { token } })
+    return await response.json()
   },
 
   setAuthHeader(authToken: string) {
-    axios.defaults.headers.common['X-Telegram-User-Token'] = authToken
+    localStorage.setItem('tg_token', authToken)
   },
 
   clearAuthHeader() {
-    delete axios.defaults.headers.common['X-Telegram-User-Token']
+    localStorage.removeItem('tg_token')
   },
 
   getBotUrl(): string {
