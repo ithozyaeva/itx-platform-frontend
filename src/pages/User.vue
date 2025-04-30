@@ -13,9 +13,9 @@ onMounted(() => {
 })
 
 const editedUser = reactive({
-  firstName: user.value.firstName,
-  lastName: user.value.lastName,
-  birthday: user.value.birthday,
+  firstName: user.value?.firstName,
+  lastName: user.value?.lastName,
+  birthday: user.value?.birthday,
 })
 
 function handleSubmit() {

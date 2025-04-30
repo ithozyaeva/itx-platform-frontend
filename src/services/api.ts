@@ -8,6 +8,7 @@ const localStorageToken = useToken()
 
 export const apiClient = ky.create({
   prefixUrl: '/api/platform/',
+  retry: 1,
   hooks: {
     beforeRequest: [
       (request) => {
@@ -23,6 +24,9 @@ export const apiClient = ky.create({
 
       if (response.status === 401) {
         try {
+          if (!localStorageUser.value) {
+            throw new Error('No user')
+          }
           const userId = localStorageUser.value.telegramID
           if (!userId) {
             throw new Error('No user id')
