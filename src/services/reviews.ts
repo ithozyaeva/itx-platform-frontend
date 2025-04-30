@@ -1,9 +1,9 @@
-import ky from 'ky'
+import { apiClient } from './api'
 
 export const reviewService = {
   async createReview(text: string) {
     try {
-      const response = await ky.post('/api/reviews/add', { json: text })
+      const response = await apiClient.post('reviews/add', { json: { text } })
       return (await response.json())
     }
     catch (err) {
