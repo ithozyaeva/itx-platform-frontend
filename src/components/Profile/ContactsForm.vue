@@ -13,7 +13,7 @@ const isEdit = ref<boolean>(false)
 const contacts = ref<Contacts[]>([])
 
 watchEffect(() => {
-  contacts.value = [...useUser<Mentor>().value?.contacts]
+  contacts.value = [...(useUser<Mentor>().value?.contacts ?? [])]
 })
 function addContact() {
   contacts.value.push({

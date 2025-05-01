@@ -13,7 +13,7 @@ const emit = defineEmits(['update:profTags'])
 const localProfTags = ref<ProfTag[]>([])
 
 watchEffect(() => {
-  localProfTags.value = [...useUser<Mentor>().value?.profTags]
+  localProfTags.value = [...(useUser<Mentor>().value?.profTags ?? [])]
 })
 
 const allProfTags = ref<ProfTag[]>([])
