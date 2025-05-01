@@ -7,10 +7,15 @@ import { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemDelete, TagsInpu
 import { useUser } from '@/composables/useUser'
 import { profileSiervice } from '@/services/profile'
 import { Edit } from 'lucide-vue-next'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watchEffect } from 'vue'
 
 const emit = defineEmits(['update:profTags'])
-const localProfTags = ref<ProfTag[]>([...useUser<Mentor>().value?.profTags || []])
+const localProfTags = ref<ProfTag[]>([])
+
+watchEffect(() => {
+  localProfTags.value = [...useUser<Mentor>().value?.profTags]
+})
+
 const allProfTags = ref<ProfTag[]>([])
 const searchProfTag = ref('')
 const openCombobox = ref(false)

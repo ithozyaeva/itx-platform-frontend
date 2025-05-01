@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useUser } from '@/composables/useUser'
 import { profileSiervice } from '@/services/profile'
 import { Edit } from 'lucide-vue-next'
-import { reactive, ref } from 'vue'
+import { reactive, ref, watchEffect } from 'vue'
 
 const user = useUser<Mentor>()
 const isEdit = ref<boolean>(false)
@@ -15,6 +15,11 @@ const isEdit = ref<boolean>(false)
 const editedUser = reactive({
   occupation: user.value?.occupation,
   experience: user.value?.experience,
+})
+
+watchEffect(() => {
+  editedUser.occupation = user.value?.occupation
+  editedUser.experience = user.value?.experience
 })
 
 function handleSubmit() {

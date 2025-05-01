@@ -7,11 +7,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useUser } from '@/composables/useUser'
 import { profileSiervice } from '@/services/profile'
 import { Edit, Plus, Trash2 } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 const isEdit = ref<boolean>(false)
-const contacts = ref<Contacts[]>([...useUser<Mentor>().value?.contacts || []])
+const contacts = ref<Contacts[]>([])
 
+watchEffect(() => {
+  contacts.value = [...useUser<Mentor>().value?.contacts]
+})
 function addContact() {
   contacts.value.push({
     type: 1, // Тип по умолчанию, TODO: в базе поменять int на varchar

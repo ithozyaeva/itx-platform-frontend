@@ -18,10 +18,6 @@ export const authService = {
     return await response.json()
   },
 
-  setAuthHeader(authToken: string) {
-    localStorage.setItem('tg_token', authToken)
-  },
-
   clearAuthHeader() {
     localStorage.removeItem('tg_token')
   },

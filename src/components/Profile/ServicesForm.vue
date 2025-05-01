@@ -7,9 +7,13 @@ import { Textarea } from '@/components/ui/textarea'
 import { useUser } from '@/composables/useUser'
 import { profileSiervice } from '@/services/profile'
 import { Edit, Plus, Trash2 } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 
-const services = ref<Service[]>([...useUser<Mentor>().value?.services || []])
+const services = ref<Service[]>([])
+
+watchEffect(() => {
+  services.value = [...useUser<Mentor>().value?.services]
+})
 
 const isEdit = ref<boolean>(false)
 
