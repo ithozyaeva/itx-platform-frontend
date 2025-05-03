@@ -12,7 +12,7 @@ import { ref, watchEffect } from 'vue'
 const services = ref<Service[]>([])
 
 watchEffect(() => {
-  services.value = [...useUser<Mentor>().value?.services]
+  services.value = [...(useUser<Mentor>().value?.services ?? [])]
 })
 
 const isEdit = ref<boolean>(false)

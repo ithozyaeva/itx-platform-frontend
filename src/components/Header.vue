@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import Logo from '@/assets/it-x-logo.svg'
 import { isUserSubscribed, useUser } from '@/composables/useUser'
 import { authService } from '@/services/auth'
 import { reviewService } from '@/services/reviews'
-import { Code, LogOut } from 'lucide-vue-next'
+import { LogOut } from 'lucide-vue-next'
 import { ref } from 'vue'
 import ReviewModal from './ReviewModal.vue'
 
@@ -30,10 +31,9 @@ async function handleSaveReview(text: string) {
     class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
   >
     <div class="container mr-auto ml-auto px-2 flex h-16 items-center justify-between">
-      <div class="flex items-center gap-2 font-bold text-xl">
-        <Code class="h-6 w-6" />
-        <span>IT-ХОЗЯЕВА</span>
-      </div>
+      <a href="/" class="flex items-center gap-2 font-bold text-xl">
+        <img :src="Logo" class="w-20">
+      </a>
       <Navigation />
       <div v-if="user" class="flex items-center gap-3">
         <button
