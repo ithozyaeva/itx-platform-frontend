@@ -1,10 +1,13 @@
 import type { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router'
+import Events from '@/pages/Events.vue'
+import Home from '@/pages/User.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../pages/User.vue'
 import { useMainStore } from '../store'
 
 const routes: RouteRecordRaw[] = [
-  { path: '/', component: Home },
+  { path: '/me', component: Home, name: 'profile' },
+  { path: '/events', component: Events, name: 'events' },
+  { path: '/', redirect: { name: 'profile' } },
 ]
 
 const router = createRouter({
