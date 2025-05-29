@@ -12,6 +12,7 @@ export interface CommunityEvent {
   open: boolean
   videoLink: string
   hosts: TelegramUser[]
+  members: TelegramUser[]
 }
 
 export type PlaceType = 'ONLINE' | 'OFFLINE' | 'HYBRID'
