@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Header from '@/components/Header.vue'
 import { useToken } from '@/composables/useToken'
 import { useUser } from '@/composables/useUser'
 import { authService } from '@/services/auth'
 import { onBeforeMount, ref } from 'vue'
+import Layout from './components/layout/Layout.vue'
 
 const tg_user = useUser()
 const tg_token = useToken()
@@ -45,9 +45,8 @@ onBeforeMount(() => {
 
 <template>
   <div v-if="!isLoading" class="min-h-screen flex flex-col">
-    <Header />
-    <main class="flex-grow w-full max-w-[1440px] mx-auto">
+    <Layout>
       <router-view v-if="tg_user" />
-    </main>
+    </Layout>
   </div>
 </template>
