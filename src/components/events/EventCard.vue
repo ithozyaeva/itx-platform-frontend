@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CommunityEvent } from '@/models/event'
 import { useUser } from '@/composables/useUser'
-import { wrapLinks } from '@/lib/utils'
+import { dateFormatter, wrapLinks } from '@/lib/utils'
 import { PlaceTypeRu } from '@/models/event'
 import { eventsService } from '@/services/events'
 import { Calendar, ChevronDown, MapPin } from 'lucide-vue-next'
@@ -16,7 +16,7 @@ const event = ref(props.event)
 const user = useUser()
 const isMembersExpanded = ref(false)
 
-const formattedDate = computed(() => new Date(event.value.date).toLocaleDateString())
+const formattedDate = computed(() => dateFormatter.format(new Date(props.event.date)))
 
 const isHost = computed(() => event.value.hosts.map(item => item.id).includes(user.value.id))
 const isMember = computed(() => event.value.members.map(item => item.id).includes(user.value.id))
