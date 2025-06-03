@@ -1,5 +1,5 @@
 import type { Component } from 'vue'
-import { Calendar, User } from 'lucide-vue-next'
+import { Calendar, Folder, User } from 'lucide-vue-next'
 import { ref } from 'vue'
 
 export interface SidebarItem {
@@ -21,6 +21,11 @@ const state = {
       title: 'Календарь событий',
       path: '/events',
       icon: Calendar,
+    },
+    {
+      title: 'Таблица рефералов',
+      path: '/referals',
+      icon: Folder,
     },
   ]),
 }
