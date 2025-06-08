@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ProfTag } from '@/models/profile'
 import type { ReferalLink } from '@/models/referals'
 import type { PropType } from 'vue'
 import ReferalLinkForm from '@/components/referals/ReferalLinkForm.vue'
@@ -22,40 +21,15 @@ const emit = defineEmits(['updated', 'deleted'])
 const user = useUser()
 const isEditing = ref(false)
 
-const editedLink = ref<Partial<ReferalLink>>({
-  company: props.link.company,
-  grade: props.link.grade,
-  profTags: props.link.profTags,
-  vacationsCount: props.link.vacationsCount,
-})
-
 const isOwner = computed(() => user.value?.id === props.link.author.id)
 
 function startEditing() {
   isEditing.value = true
-
-  editedLink.value = {
-    company: props.link.company,
-    grade: props.link.grade,
-
-    profTags: [...props.link.profTags],
-    vacationsCount: props.link.vacationsCount,
-  }
 }
 
-async function saveEdit() {
-  const profTagsArray = editedLink.value.profTags as ProfTag[]
-
-  const updatedData: Partial<ReferalLink> = {
-    id: props.link.id,
-    company: editedLink.value.company,
-    grade: editedLink.value.grade,
-    profTags: profTagsArray,
-    vacationsCount: editedLink.value.vacationsCount,
-  }
-
+async function saveEdit(editedLink: Partial<ReferalLink>) {
   try {
-    const response = await referalLinkService.updateLink(updatedData)
+    const response = await referalLinkService.updateLink({ ...props.link, ...editedLink })
     emit('updated', response)
     isEditing.value = false
   }
@@ -66,12 +40,6 @@ async function saveEdit() {
 
 function cancelEdit() {
   isEditing.value = false
-  editedLink.value = {
-    company: props.link.company,
-    grade: props.link.grade,
-    profTags: [...props.link.profTags],
-    vacationsCount: props.link.vacationsCount,
-  }
 }
 
 async function handleDelete() {
@@ -129,7 +97,7 @@ async function handleDelete() {
 
     <ReferalLinkForm
       v-if="isEditing"
-      v-model="editedLink"
+      :link="link"
       title="Редактировать ссылку"
       @save="saveEdit"
       @cancel="cancelEdit"

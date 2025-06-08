@@ -6,40 +6,18 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { GradeRUNames } from '@/models/referals'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
-const props = defineProps({
-  modelValue: {
-    type: Object as () => Partial<ReferalLink>,
-    required: true,
-  },
-  title: {
-    type: String,
-    default: 'Новая реферальная ссылка',
-  },
-})
+const props = defineProps<{ link?: Partial<ReferalLink>, title?: string }>()
 
-const emit = defineEmits(['update:modelValue', 'save', 'cancel'])
+const emit = defineEmits(['save', 'cancel'])
 
 const formData = ref<Partial<ReferalLink>>({
-  company: props.modelValue.company || '',
-  grade: props.modelValue.grade || 'junior',
-  profTags: props.modelValue.profTags || [],
-  vacationsCount: props.modelValue.vacationsCount || 0,
+  company: props.link?.company || '',
+  grade: props.link?.grade || 'junior',
+  profTags: props.link?.profTags || [],
+  vacationsCount: props.link?.vacationsCount || 1,
 })
-
-watch(() => props.modelValue, (newValue) => {
-  formData.value = {
-    company: newValue.company || '',
-    grade: newValue.grade || 'junior',
-    profTags: newValue.profTags || [],
-    vacationsCount: newValue.vacationsCount || 1,
-  }
-}, { deep: true })
-
-watch(formData, (newValue) => {
-  emit('update:modelValue', newValue)
-}, { deep: true })
 
 function handleSave() {
   emit('save', formData.value)
