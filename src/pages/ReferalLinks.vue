@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ProfTag } from '@/models/profile'
 import type { ReferalLink } from '@/models/referals'
 import ReferalLinkCard from '@/components/referals/ReferalLinkCard.vue'
 import ReferalLinkForm from '@/components/referals/ReferalLinkForm.vue'
@@ -11,13 +10,6 @@ const showAddForm = ref(false)
 const totalLinks = ref(0)
 const currentOffset = ref(0)
 const ITEMS_PER_PAGE = 10
-
-const newLinkData = ref<Partial<ReferalLink>>({
-  company: '',
-  grade: 'junior',
-  profTags: [],
-  vacationsCount: 0,
-})
 
 async function fetchReferalLinks() {
   try {
@@ -46,28 +38,11 @@ onMounted(() => {
 
 function toggleAddForm() {
   showAddForm.value = !showAddForm.value
-  if (showAddForm.value) {
-    newLinkData.value = {
-      company: '',
-      grade: 'junior',
-      profTags: [],
-      vacationsCount: 0,
-    }
-  }
 }
 
-async function saveNewLink() {
-  const profTagsArray = newLinkData.value.profTags as ProfTag[]
-
-  const linkToAdd: Partial<ReferalLink> = {
-    company: newLinkData.value.company,
-    grade: newLinkData.value.grade,
-    profTags: profTagsArray,
-    vacationsCount: newLinkData.value.vacationsCount,
-  }
-
+async function saveNewLink(newLink: Partial<ReferalLink>) {
   try {
-    const addedLink = await referalLinkService.addLink(linkToAdd)
+    const addedLink = await referalLinkService.addLink(newLink)
     referalLinks.value.unshift(addedLink)
     showAddForm.value = false
   }
@@ -78,12 +53,6 @@ async function saveNewLink() {
 
 function cancelAdd() {
   showAddForm.value = false
-  newLinkData.value = {
-    company: '',
-    grade: 'junior',
-    profTags: [],
-    vacationsCount: 0,
-  }
 }
 
 function handleLinkUpdated(updatedLink: ReferalLink) {
@@ -120,7 +89,6 @@ function handleLinkDeleted(deletedLinkId: number) {
         </div>
         <ReferalLinkForm
           v-if="showAddForm"
-          v-model="newLinkData"
           @save="saveNewLink"
           @cancel="cancelAdd"
         />
