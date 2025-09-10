@@ -17,7 +17,7 @@ export function useUser<TUser extends TelegramUser | Mentor = TelegramUser>(): R
 export function isUserSubscribed() {
   const user = useUser()
 
-  return computed(() => user.value?.role !== 'UNSUBSCRIBER')
+  return computed(() => !user.value?.roles.includes('UNSUBSCRIBER'))
 }
 
 export function isUserMentor() {
@@ -25,5 +25,5 @@ export function isUserMentor() {
 }
 
 function isMentor(user: TelegramUser | Mentor): user is Mentor {
-  return user?.role === 'MENTOR'
+  return user?.roles?.includes('MENTOR')
 }

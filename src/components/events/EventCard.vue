@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { CommunityEvent } from '@/models/event'
+import { useDictionary } from '@/composables/useDictionary'
 import { useUser } from '@/composables/useUser'
 import { dateFormatter, wrapLinks } from '@/lib/utils'
-import { PlaceTypeRu } from '@/models/event'
 import { eventsService } from '@/services/events'
 import { Calendar, ChevronDown, MapPin } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
@@ -36,6 +36,8 @@ async function declineEvent(eventId: number) {
 function getICS() {
   window.open(`${window.location.origin}/api/events/ics?eventId=${event.value.id}`, '_blank')
 }
+
+const { placeTypesObject } = useDictionary(['placeTypes'])
 </script>
 
 <template>
@@ -48,7 +50,7 @@ function getICS() {
         <span
           class="bg-green-100 text-green-800 px-2 py-1 text-xs rounded-full"
         >
-          {{ PlaceTypeRu[event.placeType] }}
+          {{ placeTypesObject[event.placeType] }}
         </span>
         <span
           v-if="event.eventType !== 'ONLINE' && !!event.customPlaceType"

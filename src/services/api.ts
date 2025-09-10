@@ -1,4 +1,4 @@
-import type { TelegramUser } from './auth'
+import type { TelegramUser } from '@/models/profile'
 import { useToken } from '@/composables/useToken'
 import { useUser } from '@/composables/useUser'
 import ky from 'ky'

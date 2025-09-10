@@ -1,4 +1,4 @@
-export type UserRole = 'UNSUBSCRIBER' | 'SUBSCRIBER' | 'MENTOR'
+export type UserRole = 'UNSUBSCRIBER' | 'SUBSCRIBER' | 'MENTOR' | 'ADMIN' | 'EVENT_MAKER'
 
 export interface TelegramUser {
   id: number
@@ -7,7 +7,7 @@ export interface TelegramUser {
   birthday: string
   firstName: string
   lastName: string
-  role: UserRole
+  roles: UserRole[]
 }
 
 export interface Mentor extends TelegramUser {

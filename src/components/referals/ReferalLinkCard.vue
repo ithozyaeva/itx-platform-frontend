@@ -2,9 +2,9 @@
 import type { ReferalLink } from '@/models/referals'
 import type { PropType } from 'vue'
 import ReferalLinkForm from '@/components/referals/ReferalLinkForm.vue'
+import { useDictionary } from '@/composables/useDictionary'
 import { useUser } from '@/composables/useUser'
 import { dateFormatter } from '@/lib/utils'
-import { GradeRUNames } from '@/models/referals'
 import { referalLinkService } from '@/services/referals'
 import { Pencil, Trash } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
@@ -51,6 +51,8 @@ async function handleDelete() {
     console.error('Ошибка при удалении реферальной ссылки:', error)
   }
 }
+
+const { gradesObject } = useDictionary(['grades'])
 </script>
 
 <template>
@@ -78,7 +80,7 @@ async function handleDelete() {
       <div class="space-y-1 text-sm">
         <div class="space-x-2">
           <span class="font-bold">Грейд:</span>
-          <span> {{ GradeRUNames[link.grade] }}</span>
+          <span> {{ gradesObject[link.grade] }}</span>
         </div>
         <div class="space-x-2">
           <span class="font-bold">Навыки:</span>
