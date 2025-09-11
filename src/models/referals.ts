@@ -11,17 +11,6 @@ export interface ReferalLink {
   updatedAt: string
 }
 
-type Grade = 'senior' | 'junior' | 'middle'
+export type Grade = 'senior' | 'junior' | 'middle'
 
 type ReferalLinkStatus = 'active' | 'freezed'
-
-export const GradeRUNames: Record<Grade, string> = {
-  senior: 'Сеньор',
-  junior: 'Джун',
-  middle: 'Мидл',
-}
-
-export const ReferalLinkStatusNames: Record<ReferalLinkStatus, string> = {
-  active: 'В поиске',
-  freezed: 'Заморожен',
-}

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { ReferalLink } from '@/models/referals'
+import type { Grade, ReferalLink } from '@/models/referals'
+
 import ProfTagsInput from '@/components/common/ProfTagsInput.vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { GradeRUNames } from '@/models/referals'
+import { useDictionary } from '@/composables/useDictionary'
 import { ref } from 'vue'
 
 const props = defineProps<{ link?: Partial<ReferalLink>, title?: string }>()
@@ -26,6 +27,8 @@ function handleSave() {
 function handleCancel() {
   emit('cancel')
 }
+
+const { grades } = useDictionary<Grade>(['grades'])
 </script>
 
 <template>
@@ -45,14 +48,8 @@ function handleCancel() {
             <SelectValue placeholder="Выберите грейд" />
           </SelectTrigger>
           <SelectContent class="w-full">
-            <SelectItem value="senior">
-              {{ GradeRUNames.senior }}
-            </SelectItem>
-            <SelectItem value="middle">
-              {{ GradeRUNames.middle }}
-            </SelectItem>
-            <SelectItem value="junior">
-              {{ GradeRUNames.junior }}
+            <SelectItem v-for="grade in grades" :key="grade.value" :value="grade.value">
+              {{ grade.label }}
             </SelectItem>
           </SelectContent>
         </Select>
