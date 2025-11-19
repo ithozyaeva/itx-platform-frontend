@@ -19,11 +19,14 @@ const isMentor = isUserMentor()
 
 <template>
   <div class="min-h-screen pt-20 pb-10">
-    <div class="container" :class="!isMentor ? 'mx-auto px-4 max-w-3xl' : 'grid grid-cols-1 md:grid-cols-2 gap-4'">
+    <div
+      class="container"
+      :class="isMentor ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : 'mx-auto px-4 max-w-3xl flex flex-col gap-4'"
+    >
       <MemberProfileCard v-if="user" />
-      <div class="grid grid-cols-1 gap-4">
-        <ProfTagsForm v-if="isMentor" />
-        <MentorInfoForm v-if="isMentor" />
+      <div v-if="isMentor" class="grid grid-cols-1 gap-4">
+        <ProfTagsForm />
+        <MentorInfoForm />
       </div>
       <ServicesForm v-if="isMentor" />
       <ContactsForm v-if="isMentor" />
