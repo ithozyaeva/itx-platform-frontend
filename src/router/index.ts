@@ -1,6 +1,7 @@
 import type { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router'
 import Events from '@/pages/Events.vue'
 import ReferalLinks from '@/pages/ReferalLinks.vue'
+import Resumes from '@/pages/Resumes.vue'
 import Home from '@/pages/User.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useMainStore } from '../store'
@@ -9,6 +10,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/me', component: Home, name: 'profile' },
   { path: '/events', component: Events, name: 'events' },
   { path: '/referals', component: ReferalLinks, name: 'referals' },
+  { path: '/resumes', component: Resumes, name: 'resumes' },
   { path: '/', redirect: { name: 'events' } },
 ]
 
