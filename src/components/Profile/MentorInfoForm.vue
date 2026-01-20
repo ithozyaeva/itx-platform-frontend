@@ -39,6 +39,7 @@ function handleSubmit() {
           v-model="editedUser.occupation"
           placeholder="фронт/бек/другое"
           :readonly="!isEdit"
+          max-length="255"
         />
       </div>
       <div class="space-y-2 w-full">
@@ -49,6 +50,7 @@ function handleSubmit() {
           placeholder="Кто Вы, где работали, кем. Желательно вкратце"
           rows="4"
           :readonly="!isEdit"
+          max-length="255"
         />
       </div>
       <Button v-if="isEdit" class="mt-1 px-4 py-2 bg-purple-500 text-white rounded-md cursor-pointer hover:bg-purple-600 transition duration-300 active:scale-95" @click="handleSubmit">
