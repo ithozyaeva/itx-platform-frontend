@@ -22,6 +22,54 @@ const isHost = computed(() => event.value.hosts.map(item => item.id).includes(us
 const isMember = computed(() => event.value.members.map(item => item.id).includes(user.value.id))
 const isPassedEvent = computed(() => new Date(props.event.date) < new Date())
 
+// Форматирование информации о повторениях
+const repeatInfo = computed(() => {
+  if (!props.event.isRepeating || !props.event.repeatPeriod) {
+    return null
+  }
+
+  const periodLabels: Record<string, string> = {
+    DAILY: 'день',
+    WEEKLY: 'неделя',
+    MONTHLY: 'месяц',
+    YEARLY: 'год',
+  }
+
+  const periodLabel = periodLabels[props.event.repeatPeriod] || props.event.repeatPeriod.toLowerCase()
+  const interval = props.event.repeatInterval || 1
+
+  let info = `Повторяется каждые ${interval} ${interval === 1 ? periodLabel : getPluralForm(periodLabel, interval)}`
+
+  if (props.event.repeatEndDate) {
+    const endDate = new Date(props.event.repeatEndDate)
+    info += ` до ${dateFormatter.format(endDate)}`
+  }
+
+  return info
+})
+
+function getPluralForm(word: string, count: number): string {
+  const forms: Record<string, string[]> = {
+    день: ['дня', 'дней'],
+    неделя: ['недели', 'недель'],
+    месяц: ['месяца', 'месяцев'],
+    год: ['года', 'лет'],
+  }
+
+  if (!forms[word])
+    return word
+
+  if (count % 10 === 1 && count % 100 !== 11) {
+    return word
+  }
+  else if (count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20)) {
+    return forms[word][0]
+  }
+  else {
+    return forms[word][1]
+  }
+}
+
 function toggleMembers() {
   isMembersExpanded.value = !isMembersExpanded.value
 }
@@ -69,7 +117,12 @@ const { placeTypesObject } = useDictionary(['placeTypes'])
     <div class="space-y-2 text-sm">
       <div class="flex items-center gap-2">
         <Calendar />
-        <span>{{ formattedDate }}</span>
+        <div class="flex flex-col">
+          <span>{{ formattedDate }} ({{ event.timezone || 'UTC' }})</span>
+          <span v-if="repeatInfo" class="text-xs text-muted-foreground italic">
+            {{ repeatInfo }}
+          </span>
+        </div>
       </div>
       <div class="flex items-center gap-2">
         <MapPin />
