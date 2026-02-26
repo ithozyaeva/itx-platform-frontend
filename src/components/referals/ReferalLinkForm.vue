@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { Grade, ReferalLink } from '@/models/referals'
-
 import ProfTagsInput from '@/components/common/ProfTagsInput.vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useDictionary } from '@/composables/useDictionary'
+import { Typography } from 'itx-ui-kit'
 import { ref } from 'vue'
 
 const props = defineProps<{ link?: Partial<ReferalLink>, title?: string }>()
@@ -33,17 +33,17 @@ const { grades } = useDictionary<Grade>(['grades'])
 
 <template>
   <div class="flex flex-col gap-4" style="min-height: 150px;">
-    <h3 class="text-lg font-semibold">
+    <Typography variant="h4" as="h3">
       {{ title }}
-    </h3>
+    </Typography>
     <div class="flex flex-col gap-2">
       <div>
         <Label for="company" class="block text-sm font-medium text-muted-foreground">Компания</Label>
-        <Input id="company" v-model="formData.company" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+        <Input id="company" v-model="formData.company" type="text" class="mt-1 block w-full rounded-md border-input shadow-sm" />
       </div>
       <div>
         <Label for="grade" class="block text-sm font-medium text-muted-foreground">Грейд</Label>
-        <Select id="grade" v-model="formData.grade" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+        <Select id="grade" v-model="formData.grade" class="mt-1 block w-full rounded-md border-input shadow-sm">
           <SelectTrigger>
             <SelectValue placeholder="Выберите грейд" />
           </SelectTrigger>
@@ -60,14 +60,14 @@ const { grades } = useDictionary<Grade>(['grades'])
       </div>
       <div>
         <Label for="vacations" class="block text-sm font-medium text-muted-foreground">Количество вакансий</Label>
-        <Input id="vacations" v-model.number="formData.vacationsCount" type="number" min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+        <Input id="vacations" v-model.number="formData.vacationsCount" type="number" min="1" class="mt-1 block w-full rounded-md border-input shadow-sm" />
       </div>
     </div>
     <div class="flex justify-end gap-2 mt-4">
-      <Button class="px-4 py-2 border rounded-md text-sm font-medium" @click="handleCancel">
+      <Button variant="outline" class="px-4 py-2 text-sm font-medium" @click="handleCancel">
         Отменить
       </Button>
-      <Button class="px-4 py-2 bg-blue-500 text-white rounded-md text-sm font-medium" @click="handleSave">
+      <Button class="px-4 py-2 text-sm font-medium" @click="handleSave">
         Сохранить
       </Button>
     </div>

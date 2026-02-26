@@ -29,9 +29,9 @@ function handleSubmit() {
 </script>
 
 <template>
-  <div class="p-6 md:p-8 bg-white/60 backdrop-blur-lg border border-white/20 shadow-lg rounded-2xl w-full">
+  <div class="p-6 md:p-8 bg-card backdrop-blur-lg border border-border shadow-lg rounded-3xl w-full">
     <div class="flex relative flex-col items-center space-y-6">
-      <Edit class="absolute right-0 top-0 cursor-pointer text-gray-500 hover:text-gray-700" @click="isEdit = !isEdit" />
+      <Edit class="absolute right-0 top-0 cursor-pointer text-muted-foreground hover:text-foreground" @click="isEdit = !isEdit" />
       <div class="space-y-2 w-full mt-2">
         <Label for="occupation">Специализация</Label>
         <Input
@@ -51,7 +51,7 @@ function handleSubmit() {
           :readonly="!isEdit"
         />
       </div>
-      <Button v-if="isEdit" class="mt-1 px-4 py-2 bg-purple-500 text-white rounded-md cursor-pointer hover:bg-purple-600 transition duration-300 active:scale-95" @click="handleSubmit">
+      <Button v-if="isEdit" class="mt-1 px-4 py-2 cursor-pointer transition duration-300" @click="handleSubmit">
         Сохранить изменения
       </Button>
     </div>

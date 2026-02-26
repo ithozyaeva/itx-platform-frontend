@@ -6,6 +6,7 @@ import { Combobox, ComboboxAnchor, ComboboxEmpty, ComboboxGroup, ComboboxInput, 
 import { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemDelete, TagsInputItemText } from '@/components/ui/tags-input'
 import { useUser } from '@/composables/useUser'
 import { profileSiervice } from '@/services/profile'
+import { Typography } from 'itx-ui-kit'
 import { Edit } from 'lucide-vue-next'
 import { computed, onMounted, ref, watchEffect } from 'vue'
 
@@ -97,12 +98,12 @@ function toggleEdit() {
 </script>
 
 <template>
-  <div class="p-6 md:p-8 bg-white/60 backdrop-blur-lg border border-white/20 shadow-lg rounded-2xl h-fit">
+  <div class="p-6 md:p-8 bg-card backdrop-blur-lg border border-border shadow-lg rounded-3xl h-fit">
     <div class="flex relative flex-col items-center space-y-3">
-      <Edit class="absolute right-0 top-0 cursor-pointer text-gray-500 hover:text-gray-700" @click="toggleEdit" />
-      <h5 class="text-2xl font-semibold text-gray-900">
+      <Edit class="absolute right-0 top-0 cursor-pointer text-muted-foreground hover:text-foreground" @click="toggleEdit" />
+      <Typography variant="h3" as="h5">
         Проф теги
-      </h5>
+      </Typography>
       <div class="w-full">
         <Combobox v-model="localProfTags" v-model:open="openCombobox" :ignore-filter="true">
           <ComboboxAnchor class="w-full" as-child>
@@ -137,7 +138,7 @@ function toggleEdit() {
           </ComboboxAnchor>
         </Combobox>
       </div>
-      <Button v-if="isEdit" class="mt-1 px-4 py-2 bg-purple-500 text-white rounded-md cursor-pointer hover:bg-purple-600 transition duration-300 active:scale-95" @click="handleSubmit">
+      <Button v-if="isEdit" class="mt-1 px-4 py-2 cursor-pointer transition duration-300" @click="handleSubmit">
         Сохранить изменения
       </Button>
     </div>

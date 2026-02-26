@@ -2,8 +2,13 @@
 import type { ReferalLink } from '@/models/referals'
 import ReferalLinkCard from '@/components/referals/ReferalLinkCard.vue'
 import ReferalLinkForm from '@/components/referals/ReferalLinkForm.vue'
+import { useCardReveal } from '@/composables/useCardReveal'
 import { referalLinkService } from '@/services/referals'
+import { Typography } from 'itx-ui-kit'
 import { onMounted, ref } from 'vue'
+
+const containerRef = ref<HTMLElement | null>(null)
+useCardReveal(containerRef)
 
 const referalLinks = ref<ReferalLink[]>([])
 const showAddForm = ref(false)
@@ -71,13 +76,13 @@ function handleLinkDeleted(deletedLinkId: number) {
 </script>
 
 <template>
-  <div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-6">
+  <div ref="containerRef" class="container mx-auto p-4">
+    <Typography variant="h2" as="h1" class="mb-6">
       Реферальные ссылки
-    </h1>
+    </Typography>
 
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      <div class="bg-card rounded-lg border p-4 shadow-md ">
+      <div class="bg-card rounded-3xl border p-4 shadow-md ">
         <div
           v-if="!showAddForm"
           class="transition-shadow flex flex-col items-center justify-center gap-2 text-center cursor-pointer"
@@ -102,7 +107,7 @@ function handleLinkDeleted(deletedLinkId: number) {
         @deleted="handleLinkDeleted"
       />
 
-      <div v-if="referalLinks.length < totalLinks" class="bg-card rounded-lg border p-4 hover:shadow-md flex justify-center atems-center cursor-pointer " @click="loadMore">
+      <div v-if="referalLinks.length < totalLinks" class="bg-card rounded-3xl border p-4 hover:shadow-md flex justify-center atems-center cursor-pointer " @click="loadMore">
         <span variant="ghost" class="m-auto">
           Показать ещё
         </span>
