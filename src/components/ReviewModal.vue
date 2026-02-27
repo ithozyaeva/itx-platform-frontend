@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Typography } from 'itx-ui-kit'
 import { X } from 'lucide-vue-next'
 import { ref } from 'vue'
 
@@ -38,40 +39,40 @@ function handleBackdropClick(event: MouseEvent) {
       @click="handleBackdropClick"
     >
       <Transition name="modal-scale">
-        <div v-if="isOpen" class="bg-white rounded-lg p-6 w-full max-w-md relative shadow-xl">
+        <div v-if="isOpen" class="bg-card text-card-foreground rounded-3xl p-6 w-full max-w-md relative shadow-xl">
           <button
-            class="absolute right-4 top-4 text-gray-500 hover:text-gray-700 cursor-pointer"
+            class="absolute right-4 top-4 text-muted-foreground hover:text-foreground cursor-pointer"
             @click="handleClose"
           >
             <X class="h-6 w-6" />
           </button>
 
-          <h2 class="text-xl font-bold mb-4">
+          <Typography variant="h3" as="h2" class="mb-4">
             Добавить отзыв
-          </h2>
+          </Typography>
 
           <div class="mb-4">
-            <label for="review" class="block text-sm font-medium text-gray-700 mb-2">
+            <label for="review" class="block text-sm font-medium text-muted-foreground mb-2">
               Текст отзыва
             </label>
             <textarea
               id="review"
               v-model="reviewText"
               rows="4"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full px-3 py-2 border border-input rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-ring"
               placeholder="Введите ваш отзыв..."
             />
           </div>
 
           <div class="flex justify-end gap-3">
             <button
-              class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition duration-300 cursor-pointer"
+              class="px-4 py-2 border border-input rounded-full hover:bg-secondary transition duration-300 cursor-pointer"
               @click="handleClose"
             >
               Отменить
             </button>
             <button
-              class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 cursor-pointer"
+              class="px-4 py-2 bg-accent text-accent-foreground rounded-full hover:bg-accent/90 transition duration-300 cursor-pointer"
               :disabled="!reviewText.trim()"
               @click="handleSave"
             >

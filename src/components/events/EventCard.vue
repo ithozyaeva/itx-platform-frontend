@@ -4,7 +4,8 @@ import { useDictionary } from '@/composables/useDictionary'
 import { useUser } from '@/composables/useUser'
 import { wrapLinks } from '@/lib/utils'
 import { eventsService } from '@/services/events'
-import { Calendar, ChevronDown, MapPin } from 'lucide-vue-next'
+import { CalendarIcon, Tag, Typography } from 'itx-ui-kit'
+import { ChevronDown, MapPin } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
 import Button from '../ui/button/Button.vue'
 
@@ -113,23 +114,20 @@ const { placeTypesObject } = useDictionary(['placeTypes'])
 </script>
 
 <template>
-  <div class="bg-card rounded-lg border p-4 hover:shadow-md transition-shadow flex flex-col gap-1">
+  <div data-reveal class="bg-card rounded-3xl border p-4 hover:shadow-md transition-shadow flex flex-col gap-1">
     <div class="flex justify-between items-start mb-2">
-      <h3 class="text-lg font-semibold">
+      <Typography variant="h4" as="h3">
         {{ event.title }}
-      </h3>
+      </Typography>
       <div class="space-x-2">
-        <span
-          class="bg-green-100 text-green-800 px-2 py-1 text-xs rounded-full"
-        >
+        <Tag>
           {{ placeTypesObject[event.placeType] }}
-        </span>
-        <span
+        </Tag>
+        <Tag
           v-if="event.eventType !== 'ONLINE' && !!event.customPlaceType"
-          class="bg-blue-100 text-blue-800 px-2 py-1 text-xs rounded-full"
         >
           {{ event.customPlaceType }}
-        </span>
+        </Tag>
         <Button v-if="!isPassedEvent" class="cursor-pointer" size="sm" variant="outline" @click="getICS">
           + Добавить в календарь
         </Button>
@@ -140,7 +138,7 @@ const { placeTypesObject } = useDictionary(['placeTypes'])
     </p>
     <div class="space-y-2 text-sm">
       <div class="flex items-center gap-2">
-        <Calendar />
+        <CalendarIcon />
         <div class="flex flex-col">
           <span>{{ formattedDate }} (МСК)</span>
           <span v-if="repeatInfo" class="text-xs text-muted-foreground italic">

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { resumeService } from '@/services/resume'
+import { Typography } from 'itx-ui-kit'
 import { FileText, Loader2, Pencil, Trash2, UploadCloud } from 'lucide-vue-next'
 import { onMounted, reactive, ref } from 'vue'
 
@@ -132,31 +133,31 @@ function formatWorkFormat(format?: WorkFormat) {
 </script>
 
 <template>
-  <div class="p-6 md:p-8 bg-white/60 backdrop-blur border border-white/20 shadow-lg rounded-2xl space-y-6">
+  <div class="p-6 md:p-8 bg-card backdrop-blur border border-border shadow-lg rounded-3xl space-y-6">
     <div class="flex items-center space-x-3">
-      <UploadCloud class="text-purple-500" />
+      <UploadCloud class="text-accent" />
       <div>
-        <h2 class="text-xl font-semibold text-gray-900">
+        <Typography variant="h3" as="h2">
           Резюме
-        </h2>
-        <p class="text-sm text-gray-500">
+        </Typography>
+        <p class="text-sm text-muted-foreground">
           Загружайте файлы в формате PDF/DOC/DOCX. Поля заполнятся автоматически и их можно поправить.
         </p>
       </div>
     </div>
 
     <div class="space-y-4">
-      <label class="block text-sm font-medium text-gray-700">Файл резюме</label>
-      <input ref="fileInput" type="file" accept=".pdf,.doc,.docx" class="block w-full border rounded px-4 py-3 cursor-pointer" @change="onFileChange">
+      <label class="block text-sm font-medium text-muted-foreground">Файл резюме</label>
+      <input ref="fileInput" type="file" accept=".pdf,.doc,.docx" class="block w-full border border-input rounded-xl bg-transparent px-4 py-3 cursor-pointer text-sm" @change="onFileChange">
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Желаемая должность (необязательно)</label>
+          <label class="block text-sm font-medium text-muted-foreground mb-1">Желаемая должность (необязательно)</label>
           <Input v-model="form.desiredPosition" placeholder="Product Manager" />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Формат работы</label>
-          <select v-model="form.workFormat" class="w-full border rounded px-3 py-2">
+          <label class="block text-sm font-medium text-muted-foreground mb-1">Формат работы</label>
+          <select v-model="form.workFormat" class="w-full border border-input rounded-xl bg-transparent px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
             <option v-for="option in workFormatOptions" :key="option.value" :value="option.value">
               {{ option.label }}
             </option>
@@ -165,7 +166,7 @@ function formatWorkFormat(format?: WorkFormat) {
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Опыт (необязательно)</label>
+        <label class="block text-sm font-medium text-muted-foreground mb-1">Опыт (необязательно)</label>
         <Textarea v-model="form.workExperience" placeholder="5 лет в разработке банковских приложений" rows="3" />
       </div>
 
@@ -176,20 +177,20 @@ function formatWorkFormat(format?: WorkFormat) {
     </div>
 
     <div class="space-y-4">
-      <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
-        <FileText class="text-purple-500" />
+      <Typography variant="h4" as="h3" class="flex items-center gap-2">
+        <FileText class="text-accent" />
         Мои резюме
-      </h3>
+      </Typography>
 
-      <div v-if="!resumes.length" class="text-gray-500 text-sm">
+      <div v-if="!resumes.length" class="text-muted-foreground text-sm">
         Резюме пока не загружены.
       </div>
 
       <div v-else class="space-y-4">
-        <div v-for="resume in resumes" :key="resume.id" class="border border-gray-200 rounded-xl p-4 bg-white shadow-sm">
+        <div v-for="resume in resumes" :key="resume.id" class="border border-border rounded-xl p-4 bg-card shadow-sm">
           <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             <div>
-              <p class="text-sm text-gray-500">
+              <p class="text-sm text-muted-foreground">
                 Файл
               </p>
               <p class="text-base font-medium">
@@ -208,35 +209,35 @@ function formatWorkFormat(format?: WorkFormat) {
 
           <dl class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div>
-              <dt class="text-gray-500">
+              <dt class="text-muted-foreground">
                 Должность
               </dt>
-              <dd class="font-medium text-gray-900">
+              <dd class="font-medium text-foreground">
                 {{ resume.desiredPosition || 'Не указано' }}
               </dd>
             </div>
             <div>
-              <dt class="text-gray-500">
+              <dt class="text-muted-foreground">
                 Формат работы
               </dt>
-              <dd class="font-medium text-gray-900">
+              <dd class="font-medium text-foreground">
                 {{ formatWorkFormat(resume.workFormat as WorkFormat) }}
               </dd>
             </div>
             <div>
-              <dt class="text-gray-500">
+              <dt class="text-muted-foreground">
                 Дата загрузки
               </dt>
-              <dd class="font-medium text-gray-900">
+              <dd class="font-medium text-foreground">
                 {{ new Date(resume.createdAt).toLocaleDateString() }}
               </dd>
             </div>
           </dl>
           <div class="mt-4 text-sm">
-            <p class="text-gray-500">
+            <p class="text-muted-foreground">
               Опыт
             </p>
-            <p class="text-gray-900 whitespace-pre-line">
+            <p class="text-foreground whitespace-pre-line">
               {{ resume.workExperience || 'Не указано' }}
             </p>
           </div>
@@ -244,7 +245,7 @@ function formatWorkFormat(format?: WorkFormat) {
           <div v-if="editingId === resume.id" class="mt-4 border-t pt-4 space-y-3">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input v-model="editForm.desiredPosition" placeholder="Желаемая должность" />
-              <select v-model="editForm.workFormat" class="w-full border rounded px-3 py-2">
+              <select v-model="editForm.workFormat" class="w-full border border-input rounded-xl bg-transparent px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
                 <option v-for="option in workFormatOptions" :key="option.value" :value="option.value">
                   {{ option.label }}
                 </option>

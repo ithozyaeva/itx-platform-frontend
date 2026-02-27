@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import type { CommunityEvent } from '@/models/event'
 import EventCard from '@/components/events/EventCard.vue'
+import { useCardReveal } from '@/composables/useCardReveal'
 import { eventsService } from '@/services/events'
+import { Typography } from 'itx-ui-kit'
 import { onMounted, ref } from 'vue'
+
+const containerRef = ref<HTMLElement | null>(null)
+useCardReveal(containerRef)
 
 const pastEvents = ref<CommunityEvent[]>([])
 const futureEvents = ref<CommunityEvent[]>([])
@@ -15,16 +20,16 @@ onMounted(loadEvents)
 </script>
 
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">
+  <div ref="containerRef" class="container mx-auto px-4 py-8">
+    <Typography variant="h2" as="h1" class="mb-8">
       События сообщества
-    </h1>
+    </Typography>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div>
-        <h2 class="text-2xl font-semibold mb-4">
+        <Typography variant="h3" as="h2" class="mb-4">
           Архив событий
-        </h2>
+        </Typography>
         <div v-if="pastEvents.length === 0" class="text-muted-foreground">
           Нет архивных событий
         </div>
@@ -37,9 +42,9 @@ onMounted(loadEvents)
         </div>
       </div>
       <div>
-        <h2 class="text-2xl font-semibold mb-4">
+        <Typography variant="h3" as="h2" class="mb-4">
           Предстоящие события
-        </h2>
+        </Typography>
         <div v-if="futureEvents.length === 0" class="text-muted-foreground">
           Нет предстоящих событий
         </div>

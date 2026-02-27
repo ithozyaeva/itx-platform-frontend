@@ -13,10 +13,10 @@ onBeforeMount(() => {
   const savedTheme = localStorage.getItem('theme')
 
   if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark-theme')
+    document.documentElement.classList.add('dark')
   }
   else {
-    document.documentElement.classList.remove('dark-theme')
+    document.documentElement.classList.remove('dark')
   }
 
   const urlParams = new URLSearchParams(window.location.search)
@@ -46,7 +46,23 @@ onBeforeMount(() => {
 <template>
   <div v-if="!isLoading" class="min-h-screen flex flex-col">
     <Layout>
-      <router-view v-if="tg_user" />
+      <router-view v-if="tg_user" v-slot="{ Component }">
+        <Transition name="page-fade" mode="out-in">
+          <component :is="Component" />
+        </Transition>
+      </router-view>
     </Layout>
   </div>
 </template>
+
+<style scoped>
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.page-fade-enter-from,
+.page-fade-leave-to {
+  opacity: 0;
+}
+</style>

@@ -6,6 +6,7 @@ import { useDictionary } from '@/composables/useDictionary'
 import { useUser } from '@/composables/useUser'
 import { dateFormatter } from '@/lib/utils'
 import { referalLinkService } from '@/services/referals'
+import { Typography } from 'itx-ui-kit'
 import { Pencil, Trash } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
 
@@ -57,19 +58,20 @@ const { gradesObject } = useDictionary(['grades'])
 
 <template>
   <div
-    class="bg-card rounded-lg border p-4 hover:shadow-md transition-shadow flex flex-col gap-1"
+    data-reveal
+    class="bg-card rounded-3xl border p-4 hover:shadow-md transition-shadow flex flex-col gap-1"
   >
     <!-- Режим просмотра -->
     <div v-if="!isEditing">
       <div class="flex justify-between items-start mb-3">
-        <h3 class="text-lg font-semibold">
+        <Typography variant="h4" as="h3">
           {{ link.company }}
-        </h3>
+        </Typography>
         <div class="space-x-2">
-          <button v-if="isOwner" class="p-1 -mt-1 rounded hover:bg-gray-200 cursor-pointer" @click="startEditing">
+          <button v-if="isOwner" class="p-1 -mt-1 rounded hover:bg-secondary cursor-pointer" @click="startEditing">
             <Pencil :size="16" />
           </button>
-          <button v-if="isOwner" class="p-1 -mt-1 rounded hover:bg-gray-200 cursor-pointer" @click="handleDelete">
+          <button v-if="isOwner" class="p-1 -mt-1 rounded hover:bg-secondary cursor-pointer" @click="handleDelete">
             <Trash :size="16" />
           </button>
         </div>
