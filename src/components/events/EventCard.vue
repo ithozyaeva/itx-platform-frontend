@@ -131,7 +131,7 @@ const { placeTypesObject } = useDictionary(['placeTypes'])
         <p v-if="event.placeType === 'HYBRID'" v-html="wrapLinks(event.place)" />
       </div>
       <div class="flex items-center gap-2">
-        <span class="text-bold">Cспикеры: </span>
+        <span class="text-bold">Спикеры: </span>
         <span>{{ event.hosts.map(host => `${host.firstName} ${host.lastName}`).join(', ') }}</span>
       </div>
       <div v-if="event.videoLink">
