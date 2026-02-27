@@ -114,7 +114,7 @@ const { placeTypesObject } = useDictionary(['placeTypes'])
     </p>
     <div class="space-y-2 text-sm">
       <div class="flex items-center gap-2">
-        <Calendar />
+        <CalendarIcon />
         <div class="flex flex-col">
           <span>{{ formattedDate }} ({{ event.timezone || 'UTC' }})</span>
           <span v-if="repeatInfo" class="text-xs text-muted-foreground italic">
