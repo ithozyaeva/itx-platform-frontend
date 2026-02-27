@@ -2,7 +2,7 @@
 import type { CommunityEvent } from '@/models/event'
 import { useDictionary } from '@/composables/useDictionary'
 import { useUser } from '@/composables/useUser'
-import { dateFormatter, wrapLinks } from '@/lib/utils'
+import { wrapLinks } from '@/lib/utils'
 import { eventsService } from '@/services/events'
 import { Calendar, ChevronDown, MapPin } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
@@ -16,7 +16,22 @@ const event = ref(props.event)
 const user = useUser()
 const isMembersExpanded = ref(false)
 
-const formattedDate = computed(() => dateFormatter.format(new Date(props.event.date)))
+const formattedDate = computed(() => {
+  const utcDate = new Date(props.event.date)
+
+  // Конвертируем в МСК (UTC+3)
+  const formatter = new Intl.DateTimeFormat('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'Europe/Moscow',
+  })
+
+  return formatter.format(utcDate)
+})
 
 const isHost = computed(() => event.value.hosts.map(item => item.id).includes(user.value.id))
 const isMember = computed(() => event.value.members.map(item => item.id).includes(user.value.id))
@@ -41,8 +56,17 @@ const repeatInfo = computed(() => {
   let info = `Повторяется каждые ${interval} ${interval === 1 ? periodLabel : getPluralForm(periodLabel, interval)}`
 
   if (props.event.repeatEndDate) {
-    const endDate = new Date(props.event.repeatEndDate)
-    info += ` до ${dateFormatter.format(endDate)}`
+    const utcEndDate = new Date(props.event.repeatEndDate)
+
+    // Конвертируем в МСК (UTC+3)
+    const formatter = new Intl.DateTimeFormat('ru-RU', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'Europe/Moscow',
+    })
+
+    info += ` до ${formatter.format(utcEndDate)}`
   }
 
   return info
@@ -118,7 +142,7 @@ const { placeTypesObject } = useDictionary(['placeTypes'])
       <div class="flex items-center gap-2">
         <Calendar />
         <div class="flex flex-col">
-          <span>{{ formattedDate }} ({{ event.timezone || 'UTC' }})</span>
+          <span>{{ formattedDate }} (МСК)</span>
           <span v-if="repeatInfo" class="text-xs text-muted-foreground italic">
             {{ repeatInfo }}
           </span>
